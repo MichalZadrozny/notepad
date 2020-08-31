@@ -6,23 +6,43 @@
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/970b52408b.js"></script>
 </head>
 <body>
 
 <main>
     <section class="col col-3" id="preview-list">
 
-        <div class="note-preview-tile">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consequuntur debitis dolorum eligendi facere facilis harum laudantium maxime necessitatibus nesciunt obcaecati omnis porro possimus sed totam, ullam unde velit voluptate.
-        </div>
-        <div class="note-preview-tile">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis eaque eligendi ex expedita fugiat id ipsa ipsum natus perspiciatis possimus quaerat sequi sint temporibus veniam veritatis vero vitae, voluptatum?
-        </div>
+        <tr th:each="note : ${noteList}">
+            <div class="note-preview-tile">
+                <p th:text="${note.description}">
+                </p>
+            </div>
+        </tr>
+
     </section>
     <section class="col col-9" id="note-window">
         description
     </section>
 </main>
+
+<footer class="bg-dark">
+    <section>
+        <div class="row py-3 px-0">
+
+            <div class="col col-6 col-lg-4  text-light">
+                <p>2020 &copy; Copyright - Michał Zadrożny</p>
+            </div>
+
+            <div class="col col-6 col-lg-4   git">
+                <a class="text-decoration-none text-light" href="https://github.com/MichalZadrozny">
+                    <p><i class="fab fa-github"></i></p>
+                </a>
+            </div>
+        </div>
+
+    </section>
+</footer>
 
 </body>
 </html>

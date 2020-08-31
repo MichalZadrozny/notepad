@@ -11,13 +11,16 @@ html {
 }
 
 body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 
 main{
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
 }
 
 #note-window{
@@ -40,4 +43,60 @@ main{
     text-overflow: ellipsis;
     overflow: hidden;
     background-color: gray;
+}
+
+
+/*--------------------------------------FOOTER--------------------------------------*/
+
+footer {
+    font-weight: bold;
+}
+
+footer .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+
+footer .row div,
+footer .row a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.git i {
+    font-size: 4rem;
+}
+
+@media (max-width:700px){
+    footer p {
+        font-size: 1rem;
+    }
+
+    .git i {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width:400px){
+    footer p {
+        font-size: 0.7rem;
+    }
+
+    .git i {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width:300px){
+    footer p {
+        font-size: 0.7rem;
+    }
 }
