@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import pl.michalzadrozny.notepad.entity.Note;
 import pl.michalzadrozny.notepad.repository.NoteRepo;
 
@@ -24,7 +25,7 @@ public class NoteController {
     }
 
     @GetMapping
-    public String getNotes(Model model){
+    public String getNotes(Model model) {
 
         List<Note> noteList = noteRepo.findAll();
         Collections.sort(noteList, Comparator.comparing(Note::getLastModifiedDate));
@@ -32,5 +33,17 @@ public class NoteController {
         model.addAttribute("noteList", noteList);
 
         return "index";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteNote(@PathVariable long id) {
+        if (noteRepo.existsById(id)) {
+            log.info("Deleting note with id: " + id);
+            noteRepo.deleteById(id);
+            return "redirect:/";
+        } else {
+            log.warn("Note with id " + id + "does not exit");
+            return "redirect:/";
+        }
     }
 }

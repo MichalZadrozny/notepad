@@ -17,7 +17,10 @@
             <div class="note-preview-tile">
                 <p th:text="${note.description}">
                 </p>
+                <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
+                </div>
             </div>
+
         </tr>
 
     </section>
@@ -43,6 +46,7 @@
 
     </section>
 </footer>
+<script th:src="@{./js/goTo.js}"></script>
 
 </body>
 </html>
