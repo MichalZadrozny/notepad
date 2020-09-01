@@ -12,6 +12,7 @@ import pl.michalzadrozny.notepad.repository.NoteRepo;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -24,13 +25,34 @@ public class NoteController {
         this.noteRepo = noteRepo;
     }
 
+    @GetMapping("/{id}")
+    public String getNotes(Model model, @PathVariable long id) {
+
+        List<Note> noteList = noteRepo.findAll();
+        Collections.sort(noteList, Comparator.comparing(Note::getLastModifiedDate));
+        model.addAttribute("noteList", noteList);
+
+        Optional<Note> firstNote = noteRepo.findById(id);
+
+        if(firstNote.isPresent()){
+            model.addAttribute("note", firstNote.get());
+        }
+
+        return "index";
+    }
+
     @GetMapping
     public String getNotes(Model model) {
 
         List<Note> noteList = noteRepo.findAll();
         Collections.sort(noteList, Comparator.comparing(Note::getLastModifiedDate));
-
         model.addAttribute("noteList", noteList);
+
+        Note note = noteList.get(0);
+
+
+        model.addAttribute("note", note);
+
 
         return "index";
     }
@@ -40,10 +62,9 @@ public class NoteController {
         if (noteRepo.existsById(id)) {
             log.info("Deleting note with id: " + id);
             noteRepo.deleteById(id);
-            return "redirect:/";
         } else {
             log.warn("Note with id " + id + "does not exit");
-            return "redirect:/";
         }
+        return "redirect:/";
     }
 }

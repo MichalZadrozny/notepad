@@ -14,7 +14,7 @@
     <section class="col col-3" id="preview-list">
 
         <tr th:each="note : ${noteList}">
-            <div class="note-preview-tile">
+            <div class="note-preview-tile" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
                 <p th:text="${note.description}">
                 </p>
                 <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
@@ -25,7 +25,9 @@
 
     </section>
     <section class="col col-9" id="note-window">
-        description
+        <div id="description" th:if="${note}">
+            <textarea  th:text="${note.getDescription()}"></textarea>
+        </div>
     </section>
 </main>
 
