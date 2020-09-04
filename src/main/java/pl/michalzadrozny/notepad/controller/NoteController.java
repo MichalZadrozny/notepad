@@ -29,12 +29,12 @@ public class NoteController {
     public String getNotes(Model model, @PathVariable long id) {
 
         List<Note> noteList = noteRepo.findAll();
-        Collections.sort(noteList, Comparator.comparing(Note::getLastModifiedDate));
+        noteList.sort(Comparator.comparing(Note::getLastModifiedDate));
         model.addAttribute("noteList", noteList);
 
         Optional<Note> firstNote = noteRepo.findById(id);
 
-        if(firstNote.isPresent()){
+        if (firstNote.isPresent()) {
             model.addAttribute("note", firstNote.get());
         }
 
@@ -45,14 +45,16 @@ public class NoteController {
     public String getNotes(Model model) {
 
         List<Note> noteList = noteRepo.findAll();
-        Collections.sort(noteList, Comparator.comparing(Note::getLastModifiedDate));
+        noteList.sort(Comparator.comparing(Note::getLastModifiedDate));
         model.addAttribute("noteList", noteList);
 
-        Note note = noteList.get(0);
-
-
-        model.addAttribute("note", note);
-
+        if (noteList.isEmpty()) {
+            Note emptyNote = new Note("");
+            model.addAttribute("note", emptyNote);
+        } else {
+            Note note = noteList.get(0);
+            model.addAttribute("note", note);
+        }
 
         return "index";
     }
@@ -62,6 +64,17 @@ public class NoteController {
         if (noteRepo.existsById(id)) {
             log.info("Deleting note with id: " + id);
             noteRepo.deleteById(id);
+        } else {
+            log.warn("Note with id " + id + "does not exit");
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/save/{id}")
+    public String saveNote(@PathVariable long id) {
+        if (noteRepo.existsById(id)) {
+            log.info("Saving note with id: " + id);
+//            noteRepo
         } else {
             log.warn("Note with id " + id + "does not exit");
         }

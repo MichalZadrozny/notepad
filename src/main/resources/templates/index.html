@@ -7,6 +7,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/970b52408b.js"></script>
+    <link rel="icon" href="data:,">
 </head>
 <body>
 
@@ -14,9 +15,12 @@
     <section class="col col-3" id="preview-list">
 
         <tr th:each="note : ${noteList}">
-            <div class="note-preview-tile" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
-                <p th:text="${note.description}">
-                </p>
+            <div class="note-preview-tile" >
+                <div class="note-preview-desc">
+                    <p th:text="${note.description}" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
+                    </p>
+                </div>
+
                 <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
                 </div>
             </div>
@@ -28,6 +32,9 @@
         <div id="description" th:if="${note}">
             <textarea  th:text="${note.getDescription()}"></textarea>
         </div>
+
+        <button>Save</button>
+
     </section>
 </main>
 

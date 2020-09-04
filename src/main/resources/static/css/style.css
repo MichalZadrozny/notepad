@@ -34,7 +34,6 @@ main {
     flex-direction: row;
     white-space: nowrap;
     font-size: 1.4rem;
-    padding: 1rem;
     color: white;
     height: 4.5rem;
     border: 0.3rem solid black;
@@ -44,7 +43,12 @@ main {
     background-color: gray;
 }
 
-.note-preview-tile:hover {
+.note-preview-desc{
+    padding: 1rem;
+    width: 100%;
+}
+
+.note-preview-desc:hover {
     cursor: pointer;
 }
 
@@ -54,6 +58,9 @@ main {
     margin: 0;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+.delete{
+    padding: 1rem;
 }
 
 .delete i {
@@ -68,13 +75,15 @@ main {
 #note-window {
     background-color: gray;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 #description {
-    width: 80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
+    padding: 3rem;
 }
 
 #description textarea{
