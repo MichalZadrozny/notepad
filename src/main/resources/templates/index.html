@@ -24,16 +24,18 @@
                 <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
                 </div>
             </div>
-
         </tr>
-
     </section>
     <section class="col col-9" id="note-window">
-        <div id="description" th:if="${note}">
-            <textarea  th:text="${note.getDescription()}"></textarea>
-        </div>
 
-        <button>Save</button>
+        <form th:action="@{/save}" th:object="${note}" method="post">
+            <div id="description-window" >
+                <textarea  id="description" th:field="*{description}"></textarea>
+                <input type="hidden" th:field="*{id}">
+            </div>
+
+            <input type="submit" value="Save"/>
+        </form>
 
     </section>
 </main>
