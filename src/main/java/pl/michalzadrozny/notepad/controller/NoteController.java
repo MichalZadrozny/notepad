@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.michalzadrozny.notepad.entity.Note;
 import pl.michalzadrozny.notepad.repository.NoteRepo;
+import pl.michalzadrozny.notepad.service.NoteService;
 
-import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,19 +19,18 @@ import java.util.Optional;
 public class NoteController {
 
     private NoteRepo noteRepo;
+    private NoteService noteService;
 
     @Autowired
-    public NoteController(NoteRepo noteRepo) {
+    public NoteController(NoteRepo noteRepo, NoteService noteService) {
         this.noteRepo = noteRepo;
+        this.noteService = noteService;
     }
 
     @GetMapping("/{id}")
     public String getNote(Model model, @PathVariable long id) {
 
-        List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
-        model.addAttribute("noteList", noteList);
-
+        model.addAttribute("noteList", noteService.findAndSortNotes());
         Optional<Note> note = noteRepo.findById(id);
 
         if (note.isPresent()) {
@@ -45,9 +43,7 @@ public class NoteController {
     @GetMapping("/new")
     public String addNewNote(Model model) {
 
-        List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
-        model.addAttribute("noteList", noteList);
+        model.addAttribute("noteList", noteService.findAndSortNotes());
 
         Note emptyNote = new Note("");
         model.addAttribute("note", emptyNote);
@@ -58,16 +54,13 @@ public class NoteController {
     @GetMapping
     public String getNotes(Model model) {
 
-        List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
+        List<Note> noteList = noteService.findAndSortNotes();
         model.addAttribute("noteList", noteList);
 
         if (noteList.isEmpty()) {
-            Note emptyNote = new Note("");
-            model.addAttribute("note", emptyNote);
+            model.addAttribute("note", new Note(""));
         } else {
-            Note note = noteList.get(0);
-            model.addAttribute("note", note);
+            model.addAttribute("note", noteList.get(0));
         }
 
         return "index";
@@ -75,23 +68,14 @@ public class NoteController {
 
     @GetMapping("/delete/{id}")
     public String deleteNote(@PathVariable long id) {
-        if (noteRepo.existsById(id)) {
-            log.info("Deleting note with id: " + id);
-            noteRepo.deleteById(id);
-        } else {
-            log.warn("Note with id " + id + "does not exit");
-        }
+        noteService.deleteNote(id);
         return "redirect:/";
     }
 
     @PostMapping("/save")
     public String saveNote(Note note) {
         if (note.getId() != null) {
-            log.info("Saving note with id: " + note.getId());
-            Note noteToUpdate = noteRepo.getOne(note.getId());
-            noteToUpdate.setLastModifiedDate(LocalDateTime.now());
-            noteToUpdate.setDescription(note.getDescription());
-            noteRepo.save(noteToUpdate);
+            noteService.updateNote(note);
         } else {
             noteRepo.save(note);
         }
