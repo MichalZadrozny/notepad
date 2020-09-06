@@ -14,17 +14,23 @@
 <main>
     <section class="col col-3" id="preview-list">
 
-        <tr th:each="note : ${noteList}">
-            <div class="note-preview-tile" >
-                <div class="note-preview-desc">
-                    <p th:text="${note.description}" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
-                    </p>
-                </div>
+        <div class="preview-list-top">
+            <tr th:each="note : ${noteList}" >
+                <div class="note-preview-tile" >
+                    <div class="note-preview-desc">
+                        <p th:text="${note.description}" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
+                        </p>
+                    </div>
 
-                <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
+                    <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
+                    </div>
                 </div>
-            </div>
-        </tr>
+            </tr>
+        </div>
+        <div class="submit-btn">
+            <button type="button" class="btn btn-secondary" th:onclick="'javascript:goTo(\'/new' +'\');'">New</button>
+        </div>
+
     </section>
     <section class="col col-9" id="note-window">
 
@@ -33,8 +39,9 @@
                 <textarea  id="description" th:field="*{description}"></textarea>
                 <input type="hidden" th:field="*{id}">
             </div>
-
-            <input type="submit" value="Save"/>
+            <div class="submit-btn">
+                <button type="submit" class="btn btn-secondary">Save</button>
+            </div>
         </form>
 
     </section>

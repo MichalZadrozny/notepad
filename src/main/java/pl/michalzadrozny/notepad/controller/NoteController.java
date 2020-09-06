@@ -30,7 +30,7 @@ public class NoteController {
     public String getNote(Model model, @PathVariable long id) {
 
         List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate));
+        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
         model.addAttribute("noteList", noteList);
 
         Optional<Note> note = noteRepo.findById(id);
@@ -42,11 +42,24 @@ public class NoteController {
         return "index";
     }
 
+    @GetMapping("/new")
+    public String addNewNote(Model model) {
+
+        List<Note> noteList = noteRepo.findAll();
+        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
+        model.addAttribute("noteList", noteList);
+
+        Note emptyNote = new Note("");
+        model.addAttribute("note", emptyNote);
+
+        return "index";
+    }
+
     @GetMapping
     public String getNotes(Model model) {
 
         List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate));
+        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
         model.addAttribute("noteList", noteList);
 
         if (noteList.isEmpty()) {
