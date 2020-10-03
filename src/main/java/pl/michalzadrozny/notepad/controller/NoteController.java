@@ -30,7 +30,7 @@ public class NoteController {
     @GetMapping("/{id}")
     public String getNote(Model model, @PathVariable long id) {
 
-        model.addAttribute("noteList", noteService.findAndSortNotes());
+        model.addAttribute("noteList", noteService.findSortedNotes());
         Optional<Note> note = noteRepo.findById(id);
 
         if (note.isPresent()) {
@@ -43,7 +43,7 @@ public class NoteController {
     @GetMapping("/new")
     public String addNewNote(Model model) {
 
-        model.addAttribute("noteList", noteService.findAndSortNotes());
+        model.addAttribute("noteList", noteService.findSortedNotes());
 
         Note emptyNote = new Note("");
         model.addAttribute("note", emptyNote);
@@ -54,7 +54,7 @@ public class NoteController {
     @GetMapping
     public String getNotes(Model model) {
 
-        List<Note> noteList = noteService.findAndSortNotes();
+        List<Note> noteList = noteService.findSortedNotes();
         model.addAttribute("noteList", noteList);
 
         if (noteList.isEmpty()) {

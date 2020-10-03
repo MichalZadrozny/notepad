@@ -9,6 +9,7 @@ import pl.michalzadrozny.notepad.repository.NoteRepo;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,17 +22,20 @@ public class NoteService {
         this.noteRepo = noteRepo;
     }
 
-    public List<Note> findAndSortNotes(){
-        List<Note> noteList = noteRepo.findAll();
-        noteList.sort(Comparator.comparing(Note::getLastModifiedDate, Comparator.reverseOrder()));
+    public List<Note> findSortedNotes(){
+        List<Note> noteList = noteRepo.findAllByOrderByLastModifiedDateDesc();
         return noteList;
     }
 
     public void updateNote(Note note){
-        Note noteToUpdate = noteRepo.getOne(note.getId());
-        noteToUpdate.setLastModifiedDate(LocalDateTime.now());
-        noteToUpdate.setDescription(note.getDescription());
-        noteRepo.save(noteToUpdate);
+        Optional<Note> noteToUpdate = Optional.of(noteRepo.getOne(note.getId()));
+
+        if(noteToUpdate.isPresent()){
+            noteToUpdate.get().setLastModifiedDate(LocalDateTime.now());
+            noteToUpdate.get().setDescription(note.getDescription());
+            noteRepo.save(noteToUpdate.get());
+        }
+
     }
 
     public void deleteNote(long id){
