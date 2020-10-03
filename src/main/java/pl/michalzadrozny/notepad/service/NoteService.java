@@ -23,12 +23,11 @@ public class NoteService {
     }
 
     public List<Note> findSortedNotes(){
-        List<Note> noteList = noteRepo.findAllByOrderByLastModifiedDateDesc();
-        return noteList;
+        return noteRepo.findAllByOrderByLastModifiedDateDesc();
     }
 
     public void updateNote(Note note){
-        Optional<Note> noteToUpdate = Optional.of(noteRepo.getOne(note.getId()));
+        Optional<Note> noteToUpdate = noteRepo.findById(note.getNoteId());
 
         if(noteToUpdate.isPresent()){
             noteToUpdate.get().setLastModifiedDate(LocalDateTime.now());

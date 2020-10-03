@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import pl.michalzadrozny.notepad.entity.Note;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NoteRepo extends JpaRepository<Note, Long> {
 
-    public List<Note> findAllByOrderByLastModifiedDateDesc();
+    List<Note> findAllByOrderByLastModifiedDateDesc();
 }

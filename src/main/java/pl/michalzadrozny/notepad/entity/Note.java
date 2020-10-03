@@ -12,7 +12,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long noteId;
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime lastModifiedDate;
