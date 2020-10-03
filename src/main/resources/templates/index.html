@@ -18,11 +18,11 @@
             <tr th:each="note : ${noteList}" >
                 <div class="note-preview-tile" >
                     <div class="note-preview-desc">
-                        <p th:text="${note.description}" th:onclick="'javascript:goTo(\'/' + ${note.id} +'\');'">
+                        <p th:text="${note.description}" th:onclick="'javascript:goTo(\'/' + ${note.noteId} +'\');'">
                         </p>
                     </div>
 
-                    <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.id} +'\');'"></i>
+                    <div class="delete"><i class="fas fa-trash-alt" th:onclick="'javascript:goTo(\'/delete/' + ${note.noteId} +'\');'"></i>
                     </div>
                 </div>
             </tr>
@@ -37,7 +37,7 @@
         <form th:action="@{/save}" th:object="${note}" method="post">
             <div id="description-window" >
                 <textarea  id="description" th:field="*{description}"></textarea>
-                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{noteId}">
             </div>
             <div class="submit-btn">
                 <button type="submit" class="btn btn-secondary">Save</button>

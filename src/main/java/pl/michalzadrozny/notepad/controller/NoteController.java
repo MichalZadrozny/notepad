@@ -74,7 +74,7 @@ public class NoteController {
 
     @PostMapping("/save")
     public String saveNote(Note note) {
-        if (note.getId() != null) {
+        if (note.getNoteId() != null) {
             noteService.updateNote(note);
         } else {
             noteRepo.save(note);
